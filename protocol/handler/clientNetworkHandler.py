@@ -1,5 +1,4 @@
 import socket
-from threading import Thread
 
 from protocol.handler.networkConnector import NetworkConnector
 from protocol.packet import CLIENT_SIDE
@@ -7,7 +6,7 @@ from protocol.packets.connectionPacket import ConnectionPacket
 from register.initPacket import sendPacket, handlePacket
 
 
-class ClientNetworkHandler(Thread):
+class ClientNetworkHandler():
 	def __init__(self, ip, port, uuid):
 		super().__init__()
 		self.serverIp = ip
