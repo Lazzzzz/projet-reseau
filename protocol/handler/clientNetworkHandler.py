@@ -1,9 +1,10 @@
 import socket
 from threading import Thread
 
-from server.protocol.handler.networkConnector import NetworkConnector
-from server.protocol.packet import CLIENT_SIDE
-from server.protocol.packets.connectionPacket import ConnectionPacket
+from protocol.handler.networkConnector import NetworkConnector
+from protocol.packet import CLIENT_SIDE
+from protocol.packets.connectionPacket import ConnectionPacket
+from register.initPacket import sendPacket, handlePacket
 
 
 class ClientNetworkHandler(Thread):
