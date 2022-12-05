@@ -45,7 +45,6 @@ class NetworkConnector(Thread):
 					packet = {'id': packetId, 'data': dataPacket}
 					
 					self.queuePacket.append(packet)
-				
 				else:
 					self.buffer = buffer
 					break

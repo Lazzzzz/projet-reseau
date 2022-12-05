@@ -2,7 +2,6 @@ import socket
 
 from protocol.handler.networkConnector import NetworkConnector
 from protocol.packet import CLIENT_SIDE
-from protocol.packets.connectionPacket import ConnectionPacket
 from register.initPacket import sendPacket, handlePacket
 
 
@@ -23,9 +22,6 @@ class ClientNetworkHandler():
 		
 		self.connector = NetworkConnector(self.socket, self.address, self, CLIENT_SIDE)
 		self.connector.start()
-		
-		packet = ConnectionPacket(self.uuid)
-		self.sendPacket(packet)
 	
 	def sendPacket(self, packet):
 		sendPacket(self.socket, packet, CLIENT_SIDE)

@@ -1,5 +1,6 @@
 from protocol.packet import NetworkPacket, CLIENT_SIDE
-from protocol.packets.connectionPacket import ConnectionPacket
+
+from protocol.packets.serverInfoPacket import ServerInfoPacket
 
 NETWORK_PACKETS_BY_ID = {}
 NETWORK_PACKETS_BY_CLASS = {}
@@ -44,4 +45,4 @@ class PacketRegister:
 
 def initPackets():
 	register = PacketRegister()
-	register.registerNetworkPacket(ConnectionPacket, CLIENT_SIDE)
+	register.registerNetworkPacket(ServerInfoPacket, CLIENT_SIDE)
