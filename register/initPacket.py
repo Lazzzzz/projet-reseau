@@ -13,14 +13,14 @@ def handlePacket(id, data, context):
 	NETWORK_PACKETS_BY_ID[id].decode(data, context)
 
 
-def sendPacket(socket, tick, packet, side):
+def sendPacket(socket, packet, side):
 	if packet.__class__ not in NETWORK_PACKETS_BY_CLASS:
 		print("Packet {0} non initialiser".format(packet.__class__))
 		exit(-1)
 	
 	networkPacket = NETWORK_PACKETS_BY_CLASS[packet.__class__]
 	if networkPacket.side == side:
-		data = networkPacket.encode(tick, packet)
+		data = networkPacket.encode(packet)
 		socket.send(data)
 	else:
 		print('Packet send in the wrong way ...')

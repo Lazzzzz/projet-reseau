@@ -33,7 +33,6 @@ class ClientNetworkHandler(Thread):
 	
 	def generateContext(self):
 		return {
-			'terrain': self.world,
 			'address': self.address,
 			'networkHandler': self,
 			'networkConnector': self.connector,

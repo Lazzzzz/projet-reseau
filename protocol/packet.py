@@ -28,7 +28,7 @@ class NetworkPacket:
 		self.packetclass = packetclass
 		self.side = side
 	
-	def encode(self, tick, packet):
+	def encode(self, packet):
 		packet_id = struct.pack("i", self.id)
 		buffer = self.packetclass.encode(packet)
 		
