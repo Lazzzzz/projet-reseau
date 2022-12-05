@@ -1,10 +1,8 @@
-from clientHandler import ClientHandler
 from serverHandler import ServerHandler
 
 
 def print_hi():
-	server = ServerHandler()
-	client = ClientHandler()
+	server = ServerHandler(ip='10.10.59.162')
 	
 	while True:
 		server.update()

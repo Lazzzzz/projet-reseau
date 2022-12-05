@@ -50,6 +50,7 @@ class NetworkConnector(Thread):
 					break
 		
 		except Exception as e:
+			self.buffer = b''
 			print(e)
 	
 	def run(self) -> None:
