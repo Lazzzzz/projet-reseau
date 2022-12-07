@@ -51,7 +51,6 @@ class NetworkConnector(Thread):
 		
 		except Exception as e:
 			self.buffer = b''
-			print(e)
 	
 	def run(self) -> None:
 		while self.isConnected:
@@ -63,6 +62,5 @@ class NetworkConnector(Thread):
 				
 				if self.side == SERVER_SIDE:
 					self.networkHandler.connexion.remove(self)
-					print('Deconnected : {0} | Reason {1}'.format(self.player.uuid, e))
 		
 		self.socket.close()

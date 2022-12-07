@@ -4,6 +4,7 @@ from uuid import UUID
 
 CLIENT_SIDE = 'client_side'
 SERVER_SIDE = 'server_side'
+BOTH = 'both'
 
 
 class Packet:

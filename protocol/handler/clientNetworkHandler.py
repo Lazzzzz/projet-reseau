@@ -6,8 +6,10 @@ from register.initPacket import sendPacket, handlePacket
 
 
 class ClientNetworkHandler():
-	def __init__(self, ip, port, uuid):
+	def __init__(self, ip, port, uuid, app):
 		super().__init__()
+		self.app = app
+		
 		self.serverIp = ip
 		self.serverPort = port
 		
@@ -31,7 +33,8 @@ class ClientNetworkHandler():
 			'address': self.address,
 			'networkHandler': self,
 			'networkConnector': self.connector,
-			'side': CLIENT_SIDE
+			'side': CLIENT_SIDE,
+			'app': self.app
 		}
 	
 	def update(self):

@@ -1,6 +1,9 @@
-from protocol.packet import NetworkPacket, CLIENT_SIDE
-
-from protocol.packets.serverInfoPacket import ServerInfoPacket
+from protocol.packet import NetworkPacket, SERVER_SIDE, CLIENT_SIDE
+from protocol.packets.createcirclepacket import CreateCirclePacket
+from protocol.packets.createrectpacket import CreateRectPacket
+from protocol.packets.sendmousepospacket import MousePosPacket
+from protocol.packets.updatecirclepacket import UpdateCirclePacket
+from protocol.packets.updaterectpacket import UpdateRectPacket
 
 NETWORK_PACKETS_BY_ID = {}
 NETWORK_PACKETS_BY_CLASS = {}
@@ -33,7 +36,7 @@ class PacketRegister:
 	
 	def registerNetworkPacket(self, packetclass, side):
 		if self.packetId in NETWORK_PACKETS_BY_ID:
-			print('error network packet already register : {0}'.format(id))
+			print('error network packet already register : {0}'.format(self.packetId))
 			exit(-1)
 		
 		networkPacket = NetworkPacket(self.packetId, packetclass, side)
@@ -45,4 +48,8 @@ class PacketRegister:
 
 def initPackets():
 	register = PacketRegister()
-	register.registerNetworkPacket(ServerInfoPacket, CLIENT_SIDE)
+	register.registerNetworkPacket(UpdateRectPacket, SERVER_SIDE)
+	register.registerNetworkPacket(UpdateCirclePacket, SERVER_SIDE)
+	register.registerNetworkPacket(CreateRectPacket, CLIENT_SIDE)
+	register.registerNetworkPacket(CreateCirclePacket, CLIENT_SIDE)
+	register.registerNetworkPacket(MousePosPacket, CLIENT_SIDE)
