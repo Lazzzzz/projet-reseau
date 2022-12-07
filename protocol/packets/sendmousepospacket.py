@@ -1,10 +1,11 @@
-from protocol.packet import Packet, intToBytes, bytesToInt
+from protocol.packet import Packet, intToBytes, bytesToInt, UUIDToBytes, bytesToUUID
 
 
 class MousePosPacket(Packet):
-	def __init__(self, pos):
+	def __init__(self, pos, uuid):
 		super().__init__()
 		self.pos = pos
+		self.uuid = uuid
 	
 	@staticmethod
 	def encode(packet):
@@ -13,6 +14,7 @@ class MousePosPacket(Packet):
 		
 		buffer = intToBytes(x)
 		buffer += intToBytes(y)
+		buffer += UUIDToBytes(packet.uuid)
 		
 		return buffer
 	
@@ -21,8 +23,10 @@ class MousePosPacket(Packet):
 		x, buffer = bytesToInt(buffer)
 		y, buffer = bytesToInt(buffer)
 		
-		return MousePosPacket((x, y))
+		uuid, _ = bytesToUUID(buffer)
+		
+		return MousePosPacket((x, y), uuid)
 	
 	def handle(self, context):
 		simulation = context['simulation']
-		print(self.pos)
+		simulation.mouse[self.uuid] = self.pos

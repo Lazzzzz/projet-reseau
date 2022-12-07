@@ -72,6 +72,8 @@ class App:
 			'rect': {},
 			'circle': {}
 		}
+		
+		self.mouse_pos = {}
 	
 	def run(self):
 		running = True
@@ -80,7 +82,7 @@ class App:
 				if event.type == pygame.QUIT:
 					running = False
 			
-			mouse_pos = MousePosPacket(pygame.mouse.get_pos())
+			mouse_pos = MousePosPacket(pygame.mouse.get_pos(), self.networkConnector.uuid)
 			self.networkConnector.sendPacket(mouse_pos)
 			
 			self.shower.update(self.networkConnector)
@@ -92,10 +94,14 @@ class App:
 				pygame.draw.rect(self.screen, (0, 0, 255), self.objects['rect'][rect_uuid].rect)
 			
 			for circle_uuid in self.objects['circle']:
-				pygame.draw.circle(self.screen, (255, 0, 0), self.objects['circle'][circle_uuid].pos,
+				pygame.draw.circle(self.screen, (0, 255, 0), self.objects['circle'][circle_uuid].pos,
 				                   self.objects['circle'][circle_uuid].radius)
 			
 			self.shower.render(self.screen)
+			for mouse_uuid in self.mouse_pos:
+				if mouse_uuid != self.networkConnector.uuid:
+					pygame.draw.circle(self.screen, (255, 0, 0), self.mouse_pos[mouse_uuid], 4)
+			
 			pygame.display.flip()
 		
 		pygame.quit()

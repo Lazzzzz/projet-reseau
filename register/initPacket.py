@@ -1,6 +1,7 @@
 from protocol.packet import NetworkPacket, SERVER_SIDE, CLIENT_SIDE
 from protocol.packets.createcirclepacket import CreateCirclePacket
 from protocol.packets.createrectpacket import CreateRectPacket
+from protocol.packets.sendallpospacket import AllMousePosPacket
 from protocol.packets.sendmousepospacket import MousePosPacket
 from protocol.packets.updatecirclepacket import UpdateCirclePacket
 from protocol.packets.updaterectpacket import UpdateRectPacket
@@ -53,3 +54,4 @@ def initPackets():
 	register.registerNetworkPacket(CreateRectPacket, CLIENT_SIDE)
 	register.registerNetworkPacket(CreateCirclePacket, CLIENT_SIDE)
 	register.registerNetworkPacket(MousePosPacket, CLIENT_SIDE)
+	register.registerNetworkPacket(AllMousePosPacket, SERVER_SIDE)

@@ -3,6 +3,7 @@ import time
 from logic.simulation import SimulationSpace
 from protocol.handler.serverNetworkHandler import ServerNetworkHandler
 from protocol.packet import SERVER_SIDE
+from protocol.packets.sendallpospacket import AllMousePosPacket
 from protocol.packets.updatecirclepacket import UpdateCirclePacket
 from protocol.packets.updaterectpacket import UpdateRectPacket
 from register.initPacket import handlePacket, initPackets
@@ -47,6 +48,9 @@ class ServerHandler:
 		for circle_uuid in self.simulation.shapes['circle']:
 			packet = UpdateCirclePacket(self.simulation.shapes['circle'][circle_uuid])
 			self.connectionHandler.sendPacketToAll(packet)
+		
+		packet = AllMousePosPacket(self.simulation.mouse)
+		self.connectionHandler.sendPacketToAll(packet)
 		
 		time.sleep(self.dt)
 

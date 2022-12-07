@@ -52,6 +52,8 @@ class SimulationSpace:
 			'rect': {},
 			'circle': {}
 		}
+		
+		self.mouse = {}
 	
 	def add_shape(self, shape):
 		shape.add_to_zone(self.space)
