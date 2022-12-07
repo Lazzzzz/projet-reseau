@@ -37,14 +37,17 @@ class SimulationSpace:
 		self.space = pymunk.Space()
 		self.space.gravity = 0, 900
 		
-		segment1 = pymunk.Segment(self.space.static_body, (0, self.size[1] - 20), (self.size[0], self.size[1] - 20), 4)
-		segment1.elasticity = 1
+		segment1 = pymunk.Segment(self.space.static_body, (0, self.size[1]), (self.size[0], self.size[1]), 4)
+		segment1.elasticity = 0
 		
 		segment2 = pymunk.Segment(self.space.static_body, (0, 0), (0, self.size[1]), 4)
-		segment2.elasticity = 1
+		segment2.elasticity = 0
 		
 		segment3 = pymunk.Segment(self.space.static_body, (self.size[0], 0), self.size, 4)
-		segment3.elasticity = 1
+		segment3.elasticity = 0
+		
+		segment4 = pymunk.Segment(self.space.static_body, (0, 0), (self.size[0], 0), 4)
+		segment4.elasticity = 0
 		
 		self.space.add(segment1, segment2, segment3)
 		

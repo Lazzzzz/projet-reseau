@@ -26,6 +26,11 @@ class Shower:
 			self.selected = 'rect'
 		if keys[pygame.K_c]:
 			self.selected = 'circle'
+		if keys[pygame.K_UP]:
+			self.size += 1
+		if keys[pygame.K_DOWN]:
+			self.size -= 1
+			self.size = max(0, self.size)
 		
 		if self.cooldown == 0:
 			if keys[pygame.K_s]:
@@ -56,7 +61,8 @@ class Shower:
 		if self.selected == 'circle':
 			pygame.draw.circle(self.surface, (0, 255, 0), (self.size // 2, self.size // 2), self.size // 2)
 		
-		screen.blit(self.surface, pygame.mouse.get_pos())
+		pos = pygame.mouse.get_pos()[0] - self.size // 2, pygame.mouse.get_pos()[1] - self.size // 2
+		screen.blit(self.surface, pos)
 
 
 class App:
@@ -74,6 +80,7 @@ class App:
 		}
 		
 		self.mouse_pos = {}
+		self.clock = pygame.time.Clock()
 	
 	def run(self):
 		running = True
@@ -88,7 +95,7 @@ class App:
 			self.shower.update(self.networkConnector)
 			self.networkConnector.update()
 			
-			self.screen.fill((120, 120, 120))
+			self.screen.fill((170, 120, 170))
 			
 			for rect_uuid in self.objects['rect']:
 				pygame.draw.rect(self.screen, (0, 0, 255), self.objects['rect'][rect_uuid].rect)
@@ -102,6 +109,9 @@ class App:
 				if mouse_uuid != self.networkConnector.uuid:
 					pygame.draw.circle(self.screen, (255, 0, 0), self.mouse_pos[mouse_uuid], 2)
 			
+			pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect((0, 0), self.size), 6)
+			
+			self.clock.tick(60)
 			pygame.display.flip()
 		
 		pygame.quit()
