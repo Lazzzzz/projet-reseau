@@ -100,7 +100,7 @@ class App:
 			self.shower.render(self.screen)
 			for mouse_uuid in self.mouse_pos:
 				if mouse_uuid != self.networkConnector.uuid:
-					pygame.draw.circle(self.screen, (255, 0, 0), self.mouse_pos[mouse_uuid], 4)
+					pygame.draw.circle(self.screen, (255, 0, 0), self.mouse_pos[mouse_uuid], 2)
 			
 			pygame.display.flip()
 		
