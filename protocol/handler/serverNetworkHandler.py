@@ -22,15 +22,28 @@ class ServerNetworkHandler(Thread):
 		self.close = False
 	
 	def sendPacket(self, packet, player):
+		toRemove = []
 		for connexion in self.connexion:
 			if connexion.player == player:
-				sendPacket(connexion.socket, packet, SERVER_SIDE)
-				return
+				if not sendPacket(connexion.socket, packet, SERVER_SIDE):
+					toRemove.append(connexion)
+				
+				break
+		for connexion in toRemove:
+			if connexion in self.connexion:
+				self.connexion.remove(connexion)
 	
 	def sendPacketToAll(self, packet):
+		toRemove = []
+		
 		for connexion in self.connexion:
 			if connexion.isConnected:
-				sendPacket(connexion.socket, packet, SERVER_SIDE)
+				if not sendPacket(connexion.socket, packet, SERVER_SIDE):
+					toRemove.append(connexion)
+		
+		for connexion in toRemove:
+			if connexion in self.connexion:
+				self.connexion.remove(connexion)
 	
 	def run(self) -> None:
 		while not self.close:

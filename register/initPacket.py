@@ -1,3 +1,5 @@
+from _socket import error
+
 from protocol.packet import NetworkPacket, SERVER_SIDE, CLIENT_SIDE
 from protocol.packets.createcirclepacket import CreateCirclePacket
 from protocol.packets.createrectpacket import CreateRectPacket
@@ -25,10 +27,17 @@ def sendPacket(socket, packet, side):
 	
 	networkPacket = NETWORK_PACKETS_BY_CLASS[packet.__class__]
 	if networkPacket.side == side:
-		data = networkPacket.encode(packet)
-		socket.send(data)
+		try:
+			data = networkPacket.encode(packet)
+			socket.send(data)
+			return True
+		except error as exc:
+			
+			return False
 	else:
 		print('Packet send in the wrong way ...')
+	
+	return False
 
 
 class PacketRegister:

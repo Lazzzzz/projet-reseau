@@ -61,6 +61,7 @@ class NetworkConnector(Thread):
 				self.isConnected = False
 				
 				if self.side == SERVER_SIDE:
-					self.networkHandler.connexion.remove(self)
+					if self in self.networkHandler.connexion:
+						self.networkHandler.connexion.remove(self)
 		
 		self.socket.close()

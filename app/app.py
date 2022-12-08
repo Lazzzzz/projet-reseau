@@ -94,7 +94,7 @@ class App:
 		while running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					running = False
+					return
 			
 			mouse_pos = MousePosPacket(pygame.mouse.get_pos(), self.networkConnector.uuid)
 			self.networkConnector.sendPacket(mouse_pos)
@@ -129,6 +129,6 @@ class App:
 			
 			self.clock.tick(60)
 			pygame.display.flip()
-		
-		pygame.quit()
-		self.networkConnector.cl
+
+
+pygame.quit()
