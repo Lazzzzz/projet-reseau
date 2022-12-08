@@ -21,6 +21,7 @@ class Rect(Shape):
 		super().__init__(x, y, m)
 		self.rect = pygame.Rect(x - w // 2, y - h // 2, w, h)
 		self.shape = pymunk.Poly.create_box(body=self.body, size=(w, h))
+		self.shape.elasticity = 1
 
 
 class Circle(Shape):
@@ -29,6 +30,7 @@ class Circle(Shape):
 		self.pos = (x - r // 2, y - r // 2)
 		self.radius = r
 		self.shape = pymunk.Circle(self.body, radius=self.radius)
+		self.shape.elasticity = 1
 
 
 class SimulationSpace:
@@ -37,19 +39,19 @@ class SimulationSpace:
 		self.space = pymunk.Space()
 		self.space.gravity = 0, 900
 		
-		segment1 = pymunk.Segment(self.space.static_body, (0, self.size[1]), (self.size[0], self.size[1]), 4)
-		segment1.elasticity = 0
+		segment1 = pymunk.Segment(self.space.static_body, (0, self.size[1]), (self.size[0], self.size[1]), 10)
+		segment1.elasticity = 1
 		
-		segment2 = pymunk.Segment(self.space.static_body, (0, 0), (0, self.size[1]), 4)
-		segment2.elasticity = 0
+		segment2 = pymunk.Segment(self.space.static_body, (0, 0), (0, self.size[1]), 10)
+		segment2.elasticity = 1
 		
-		segment3 = pymunk.Segment(self.space.static_body, (self.size[0], 0), self.size, 4)
-		segment3.elasticity = 0
+		segment3 = pymunk.Segment(self.space.static_body, (self.size[0], 0), self.size, 10)
+		segment3.elasticity = 1
 		
-		segment4 = pymunk.Segment(self.space.static_body, (0, 0), (self.size[0], 0), 4)
-		segment4.elasticity = 0
+		segment4 = pymunk.Segment(self.space.static_body, (0, 0), (self.size[0], 0), 10)
+		segment4.elasticity = 1
 		
-		self.space.add(segment1, segment2, segment3)
+		self.space.add(segment1, segment2, segment3, segment4)
 		
 		self.shapes = {
 			'rect': {},

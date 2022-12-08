@@ -1,3 +1,4 @@
+import random
 import uuid
 
 import pygame
@@ -18,7 +19,7 @@ class Shower:
 		self.size = 10
 		self.mass = 10
 		self.surface = pygame.Surface((self.size, self.size))
-		self.cooldown = 200
+		self.cooldown = 0
 	
 	def update(self, network):
 		keys = pygame.key.get_pressed()
@@ -28,8 +29,11 @@ class Shower:
 			self.selected = 'circle'
 		if keys[pygame.K_UP]:
 			self.size += 1
+			self.mass += 1
 		if keys[pygame.K_DOWN]:
 			self.size -= 1
+			self.mass -= 1
+			self.mass = max(10, self.mass)
 			self.size = max(0, self.size)
 		
 		if self.cooldown == 0:
@@ -46,7 +50,7 @@ class Shower:
 					packet = CreateCirclePacket(circle)
 					network.sendPacket(packet)
 				
-				self.cooldown = 20
+				self.cooldown = 10
 		else:
 			self.cooldown -= 1
 	
@@ -58,10 +62,12 @@ class Shower:
 		
 		if self.selected == 'rect':
 			pygame.draw.rect(self.surface, (0, 0, 255), pygame.Rect(0, 0, self.size, self.size))
+			pos = pygame.mouse.get_pos()[0] - self.size // 2, pygame.mouse.get_pos()[1] - self.size // 2
 		if self.selected == 'circle':
 			pygame.draw.circle(self.surface, (0, 255, 0), (self.size // 2, self.size // 2), self.size // 2)
+			pos = pygame.mouse.get_pos()[0] - self.size // 2, pygame.mouse.get_pos()[
+				1] - self.size // 2
 		
-		pos = pygame.mouse.get_pos()[0] - self.size // 2, pygame.mouse.get_pos()[1] - self.size // 2
 		screen.blit(self.surface, pos)
 
 
@@ -80,6 +86,7 @@ class App:
 		}
 		
 		self.mouse_pos = {}
+		self.colors = {}
 		self.clock = pygame.time.Clock()
 	
 	def run(self):
@@ -101,13 +108,22 @@ class App:
 				pygame.draw.rect(self.screen, (0, 0, 255), self.objects['rect'][rect_uuid].rect)
 			
 			for circle_uuid in self.objects['circle']:
-				pygame.draw.circle(self.screen, (0, 255, 0), self.objects['circle'][circle_uuid].pos,
-				                   self.objects['circle'][circle_uuid].radius)
+				radius = self.objects['circle'][circle_uuid].radius
+				posX = self.objects['circle'][circle_uuid].pos[0] + radius // 2
+				posY = self.objects['circle'][circle_uuid].pos[1] + radius // 2
+				
+				pygame.draw.circle(self.screen, (0, 255, 0), (posX, posY), radius)
 			
 			self.shower.render(self.screen)
 			for mouse_uuid in self.mouse_pos:
 				if mouse_uuid != self.networkConnector.uuid:
-					pygame.draw.circle(self.screen, (255, 0, 0), self.mouse_pos[mouse_uuid], 2)
+					if mouse_uuid in self.colors:
+						color = self.colors[mouse_uuid]
+					else:
+						color = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
+						self.colors[mouse_uuid] = color
+					
+					pygame.draw.circle(self.screen, color, self.mouse_pos[mouse_uuid], 4)
 			
 			pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect((0, 0), self.size), 6)
 			
@@ -115,3 +131,4 @@ class App:
 			pygame.display.flip()
 		
 		pygame.quit()
+		self.networkConnector.cl
